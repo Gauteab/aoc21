@@ -24,6 +24,8 @@ dependencies:
 - relude
 - lens
 - regex-applicative
+- digits
+- extra
 
 library:
   source-dirs: src

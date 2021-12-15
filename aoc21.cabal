@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 188b84855e769aa5c7928a37951d63badb9e182d190091041ec8f2c6d15a4f75
+-- hash: bfd65b65dcb78bc52177fcfb3cf6a758993077e5477e7ca7c27613e119c65a0b
 
 name:           aoc21
 version:        0.1.0.0
@@ -29,12 +29,15 @@ library
   exposed-modules:
       Day01
       Day02
+      Day03
   other-modules:
       Paths_aoc21
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , digits
+    , extra
     , lens
     , regex-applicative
     , relude
@@ -50,6 +53,8 @@ executable aoc21-exe
   build-depends:
       aoc21
     , base >=4.7 && <5
+    , digits
+    , extra
     , lens
     , regex-applicative
     , relude
@@ -66,6 +71,8 @@ test-suite aoc21-test
   build-depends:
       aoc21
     , base >=4.7 && <5
+    , digits
+    , extra
     , lens
     , regex-applicative
     , relude

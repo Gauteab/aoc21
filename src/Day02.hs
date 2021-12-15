@@ -1,6 +1,4 @@
-module Day02 (
-  main,
-) where
+module Day02 (main) where
 
 import Control.Lens
 import Relude ((>>>))
