@@ -8,9 +8,8 @@ import Relude ((>>>))
 main :: IO ()
 main = do
   input <- map (words >>> (\[s, i] -> (s, read i :: Int))) . lines <$> readFile "input/02"
-  -- print . uncurry (*) . foldl step (0, 0) $ input
-  let (x, y, _) = foldl step' (0, 0, 0) $ input
-  print (x * y)
+  print . uncurry (*) . foldl step (0, 0) $ input
+  print . product . init . toListOf each . foldl step' (0, 0, 0) $ input
 
 step (x, y) ("forward", i) = (x + i, y)
 step (x, y) ("down", i) = (x, y + i)
