@@ -1,24 +1,27 @@
-{-# LANGUAGE TypeApplications #-}
-
 module Day03 (main) where
 
 import Control.Lens
-import Data.Bits (complement)
 import Data.Char (digitToInt)
 import Data.Digits (unDigits)
-import Data.Foldable (minimumBy)
 import Data.Function (on)
-import Data.List (partition)
-import Data.List.Extra (minimumOn)
-import Data.Ratio ((%))
-import Relude (transpose, (>>>))
+import Debug.Trace (trace)
+import Relude (traceShowId, transpose, (>>>))
 
 main :: IO ()
-main =
-  do
-    input <- (map . map) digitToInt . lines <$> readFile "input/03" :: IO [[Int]]
-    input
-      & transpose
-      & map (head . minimumOn length . toListOf each . partition (== 1))
-      & ((*) `on` unDigits 2) <*> map ((`mod` 2) . (+ 1))
-      & print
+main = do
+  input <- readFile "input/03" <&> (lines >>> each . each %~ digitToInt)
+  print . (on (*) (unDigits 2) <*> map (\x -> mod (x + 1) 2)) . map (selectBitFromSign (>= 0)) . transpose $ input
+  let o2 = unDigits 2 $ rating (>= 0) input
+      co2 = unDigits 2 $ rating (< 0) input
+  print (o2 * co2)
+
+rating :: (Int -> Bool) -> [[Int]] -> [Int]
+rating _ [] = []
+rating _ [rest] = rest
+rating p candidates = selected : rating p newCandidates
+  where
+    selected = selectBitFromSign p . head . transpose $ candidates
+    newCandidates = map tail . filter ((selected ==) . head) $ candidates
+
+selectBitFromSign :: (Int -> Bool) -> [Int] -> Int
+selectBitFromSign p = fromEnum . p . sum . map (\x -> x * 2 - 1)
